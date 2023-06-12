@@ -1,24 +1,12 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To deploy rails and worker,
 
-Things you may want to cover:
+`kubectl apply -f deployment.web.yml`
+`kubectl apply -f deployment.worker.yml`
+`kubectl apply -f loadBalancer.yml`
 
-* Ruby version
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Images in private ECR registry on AWS.
+* DB is RDS postgres instance
+* To deploy use EKS AWS cluster
