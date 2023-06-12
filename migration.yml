@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migration
+spec:
+  template:
+    spec:
+      containers:
+      - name: db-migration
+        image: 531912627667.dkr.ecr.us-east-1.amazonaws.com/aws-demo:latest-web
+        command: ["rake",  "db:migrate"]
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: web-config
+      restartPolicy: Never
+  backoffLimit: 4   

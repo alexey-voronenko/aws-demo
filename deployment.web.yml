@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-rails-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+      - name: webserver
+        image: 531912627667.dkr.ecr.us-east-1.amazonaws.com/aws-demo:latest-web
+        env:
+        - name: DB_URL
+          value: database-1.cflrruw5oh0g.us-east-1.rds.amazonaws.com # URL of our database endpoint
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-creds
+              key: username # use the encoded username from the K8s secret db-creds
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-creds
+              key: password # use the encoded password from the K8s secret db-creds
+        - name: DB_NAME
+          value: backend # our DB is named backend
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: web-config
